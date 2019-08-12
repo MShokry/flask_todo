@@ -1,0 +1,25 @@
+/* add your CSS here */
+#container{
+  border: 2px;
+  width: 90%;
+  
+}
+#card{
+  width: 90%;
+  border-color: lightgray;
+  border: solid;
+  font-style: italic;
+
+}
+span {
+ font: bold 20px ; 
+ font-weight: bold;
+}
+
+table {
+  width: 90%;
+}
+
+th {
+  width: 30%;
+}
