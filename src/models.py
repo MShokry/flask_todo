@@ -16,6 +16,10 @@ class User(db.Model):
     return '<USER {}>'.format(self.username)
 
 class UserSchema(ma.Schema):
+  id = fields.Integer(dump_only=True)
+  username = fields.String(required=True)
+  email = fields.String(required=True)
+  passworhash = fields.String(required=True)
   class Meta:
     fields = ('id', 'username', 'email')
   
@@ -27,6 +31,8 @@ class Todo(db.Model):
     done = db.Column(db.Integer, default=0)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    active = db.Column(db.Integer)
+    token = db.Column(db.String(200))
 
     def __init__(self, task,done,user_id):
       self.task = task

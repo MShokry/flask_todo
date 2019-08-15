@@ -36,16 +36,16 @@ class Task(Resource):
     if not json_data:
             return {'message': 'No input data provided'}, 400
     # Validate and deserialize input
-    data, errors = category_schema.load(json_data)
+    data, errors = todo_schema.load(json_data)
     if errors:
         return errors, 422
-    category = Category.query.filter_by(id=data['id']).first()
-    if not category:
-        return {'message': 'Category does not exist'}, 400
-    category.name = data['name']
+    todo = todo.query.filter_by(id=data['id']).first()
+    if not todo:
+        return {'message': 'todo does not exist'}, 400
+    todo.name = data['name']
     db.session.commit()
 
-    result = category_schema.dump(category).data
+    result = todo_schema.dump(todo).data
 
     return { "status": 'success', 'data': result }, 204
   
@@ -54,12 +54,12 @@ class Task(Resource):
     if not json_data:
             return {'message': 'No input data provided'}, 400
     # Validate and deserialize input
-    data, errors = category_schema.load(json_data)
+    data, errors = todo_schema.load(json_data)
     if errors:
         return errors, 422
-    category = Category.query.filter_by(id=data['id']).delete()
+    todo = Todo.query.filter_by(id=data['id']).delete()
     db.session.commit()
 
-    result = category_schema.dump(category).data
+    result = todo_schema.dump(todo).data
 
     return { "status": 'success', 'data': result}, 204
