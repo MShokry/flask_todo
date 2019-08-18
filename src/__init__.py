@@ -13,7 +13,7 @@ ma = Marshmallow(app)
 # from src import models
 from src.task import Task
 from src.user import Users
-from src.Auth import Login
+from src.auth import Login
 
 #api = Api(app)
 api_bp = Blueprint('api', __name__)
@@ -24,4 +24,3 @@ app.register_blueprint(api_bp, url_prefix='/api')
 api.add_resource(Task, '/Task')
 api.add_resource(Users, '/Users')
 api.add_resource(Login, '/Login')
-

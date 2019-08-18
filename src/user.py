@@ -51,7 +51,7 @@ class Users(Resource):
 
   # Get Single users
   @app.route('/user/<id>', methods=['GET'])
-  def get_user(self, id):
+  def get_user(id):
     user = User.query.get_or_404(id)
     return user_schema.jsonify(user)
 

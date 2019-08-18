@@ -50,16 +50,18 @@ class Activate(Resource):
 
 class Login(Resource):
     def get(self):
-        email = request.json['email']
-        password = request.json['password']
-        if User.query.filter_by(email= email).count() == 0:
-            abort(400, message='User is not found.')
-        user = db.users.filter_by(email= email).first()
-        if not check_password_hash(user['password'], password):
-            abort(400, message='Password is incorrect.')
-        exp = datetime.datetime.utcnow(
-        ) + datetime.timedelta(hours=app.config['TOKEN_EXPIRE_HOURS'])
-        encoded = jwt.encode({'email': email, 'exp': exp},
-                             app.config['KEY'], algorithm='HS256')
-        return {'email': email, 'token': encoded.decode('utf-8')}
-
+      json_data = request.get_json(force=True)
+      if not json_data:
+          return {'message': 'No input data provided'}, 400
+      email = request.json['email']
+      password = request.json['password']
+      if User.query.filter_by(email= email).count() == 0:
+          return {'message': 'User is not found.'}, 400
+      user = User.query.filter_by(email= email).first()
+      if not check_password_hash(user.passworhash, password):
+          return {'message': 'Password is incorrect.'}, 400
+      exp = datetime.datetime.utcnow(
+      ) + datetime.timedelta(hours=app.config['TOKEN_EXPIRE_HOURS'])
+      encoded = jwt.encode({'email': email, 'exp': exp},
+                            app.config['KEY'], algorithm='HS256')
+      return {'email': email, 'token': encoded.decode('utf-8')}
